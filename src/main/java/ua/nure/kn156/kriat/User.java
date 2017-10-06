@@ -4,13 +4,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class User {
-    /**The id of user */
+    /**
+     * The id of user
+     */
     private Long id;
-    /**The last name of user*/
+    /**
+     * The last name of user
+     */
     private String lastName;
-    /**The first name of user*/
+    /**
+     * The first name of user
+     */
     private String firstName;
-    /**The date of Birth of user*/
+    /**
+     * The date of Birth of user
+     */
     private Date date;
 
     public Long getId() {
@@ -45,6 +53,12 @@ public class User {
         this.date = date;
     }
 
+    /**
+     * Returns the {@code long} value at the
+     * specified of this user for current time.
+     * @return the {@code long} value at the specified of this user for current time.
+     */
+
     public long getAge() {
         Calendar calendar = Calendar.getInstance();
         long currYear = calendar.get(Calendar.YEAR);
@@ -59,6 +73,14 @@ public class User {
         return age;
     }
 
+    /**
+     * Returns the {@code String} first and last name
+     * separated by commas.
+     * @return the {@code long} value at the
+     * specified of this user for current time.
+     * @exception IllegalStateException if the {@code last name} or
+     * {@code first name} equals null.
+     */
     public String getFullName() {
         if (lastName == null || firstName == null) {
             throw new IllegalStateException("First name or last name equal null");
