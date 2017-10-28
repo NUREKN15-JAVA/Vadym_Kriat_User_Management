@@ -3,6 +3,11 @@ package ua.nure.kn156.kriat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * The {@code User} class represents user data.
+ *
+ * @author Vadym Kriat
+ */
 public class User {
     /**
      * The id of user
@@ -20,6 +25,17 @@ public class User {
      * The date of Birth of user
      */
     private Date date;
+
+    public User() {
+
+    }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.date = user.getDate();
+    }
 
     public Long getId() {
         return id;
@@ -56,9 +72,9 @@ public class User {
     /**
      * Returns the {@code long} value at the
      * specified of this user for current time.
+     *
      * @return the {@code long} value at the specified of this user for current time.
      */
-
     public long getAge() {
         Calendar calendar = Calendar.getInstance();
         long currYear = calendar.get(Calendar.YEAR);
@@ -76,10 +92,11 @@ public class User {
     /**
      * Returns the {@code String} first and last name
      * separated by commas.
+     *
      * @return the {@code long} value at the
      * specified of this user for current time.
-     * @exception IllegalStateException if the {@code last name} or
-     * {@code first name} equals null.
+     * @throws IllegalStateException if the {@code lastName}
+     *                               or {@code firstName} equals null.
      */
     public String getFullName() {
         if (lastName == null || firstName == null) {
