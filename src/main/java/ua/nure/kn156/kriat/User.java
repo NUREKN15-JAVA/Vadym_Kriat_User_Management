@@ -1,5 +1,7 @@
 package ua.nure.kn156.kriat;
 
+import ua.nure.kn156.kriat.util.Message;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -35,6 +37,19 @@ public class User {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.date = user.getDate();
+    }
+
+    public User(String lastName, String firstName, Date date) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.date = date;
+    }
+
+    public User(Long id, String lastName, String firstName, Date date) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.date = date;
     }
 
     public Long getId() {
@@ -103,5 +118,28 @@ public class User {
             throw new IllegalStateException("First name or last name equal null");
         }
         return new StringBuilder().append(lastName).append(", ").append(firstName).toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (this.getId() == null && ((User) o).getId() == null) {
+            return true;
+        }
+        return this.getId().equals(((User) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
     }
 }

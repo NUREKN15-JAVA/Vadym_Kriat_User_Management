@@ -4,7 +4,7 @@ import ua.nure.kn156.kriat.User;
 import ua.nure.kn156.kriat.db.ConnectionFactory;
 import ua.nure.kn156.kriat.db.exceptions.DatabaseException;
 import ua.nure.kn156.kriat.db.UserDAO;
-import ua.nure.kn156.kriat.db.UserFields;
+import ua.nure.kn156.kriat.db.UserTableInf;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,11 +12,15 @@ import java.util.Collection;
 
 public class HsqldbUserDao implements UserDAO {
 
-    private static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE users SET firstname=?, lastname=?, dateofbirth=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM users WHERE id=?";
-    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM users WHERE id=?";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM users";
+    private static final String INSERT_QUERY = "INSERT INTO " + UserTableInf.TABLE_NAME + " (" +
+            UserTableInf.FIRST_NAME + "," + UserTableInf.LAST_NAME + "," + UserTableInf.DATE_OF_BIRTH
+            + ") VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE" + UserTableInf.TABLE_NAME + " SET " +
+            UserTableInf.FIRST_NAME + "=?, " + UserTableInf.LAST_NAME + "=?," + UserTableInf.DATE_OF_BIRTH +
+            "=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM " + UserTableInf.TABLE_NAME + " WHERE id=?";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM " + UserTableInf.TABLE_NAME + " WHERE id=?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM " + UserTableInf.TABLE_NAME;
 
     private ConnectionFactory connectionFactory;
 
@@ -86,10 +90,10 @@ public class HsqldbUserDao implements UserDAO {
             User user = null;
             if (result.next()) {
                 user = new User();
-                user.setId(result.getLong(UserFields.ID));
-                user.setFirstName(result.getString(UserFields.FIRST_NAME));
-                user.setLastName(result.getString(UserFields.LAST_NAME));
-                user.setDate(result.getDate(UserFields.DATE_OF_BIRTH));
+                user.setId(result.getLong(UserTableInf.ID));
+                user.setFirstName(result.getString(UserTableInf.FIRST_NAME));
+                user.setLastName(result.getString(UserTableInf.LAST_NAME));
+                user.setDate(result.getDate(UserTableInf.DATE_OF_BIRTH));
             }
             return user;
         } catch (DatabaseException e) {
@@ -163,10 +167,10 @@ public class HsqldbUserDao implements UserDAO {
             result = statement.executeQuery(SELECT_ALL_QUERY);
             while (result.next()) {
                 User user = new User();
-                user.setId(result.getLong(UserFields.ID));
-                user.setFirstName(result.getString(UserFields.FIRST_NAME));
-                user.setLastName(result.getString(UserFields.LAST_NAME));
-                user.setDate(result.getDate(UserFields.DATE_OF_BIRTH));
+                user.setId(result.getLong(UserTableInf.ID));
+                user.setFirstName(result.getString(UserTableInf.FIRST_NAME));
+                user.setLastName(result.getString(UserTableInf.LAST_NAME));
+                user.setDate(result.getDate(UserTableInf.DATE_OF_BIRTH));
                 list.add(user);
             }
             return list;
