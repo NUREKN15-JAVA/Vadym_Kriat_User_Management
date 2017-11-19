@@ -21,8 +21,21 @@ public class BrowseServletTest extends MockServletTestCase {
         List<User> users = Collections.singletonList(user);
         mockUserDao.expectAndReturn("findAll", users);
         doGet();
-        Collection returnedUsers = (Collection) getWebMockObjectFactory().getMockSession().getAttribute("users");
-        assertNotNull(returnedUsers);
-        assertSame(users, returnedUsers);
+        Collection usersInSession = (Collection) getWebMockObjectFactory().getMockSession().getAttribute("users");
+        assertNotNull(usersInSession);
+        assertSame(users, usersInSession);
+    }
+
+    public void testEdit() {
+        User user = new User(1000L, "John", "Dao", new Date());
+        mockUserDao.expectAndReturn("find", 1000L, user);
+        addRequestParameter("edit", "Edit");
+        addRequestParameter("id", "1000");
+        doPost();
+
+        User userInSession = (User) getWebMockObjectFactory().getMockSession().getAttribute("user");
+        assertNotNull(userInSession);
+        assertSame(user, userInSession);
+
     }
 }
