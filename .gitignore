@@ -26,3 +26,6 @@ hs_err_pid*
 /out/
 /lib/
 /out_ant/
+/db.lck
+/db.properties
+/db.script

@@ -21,8 +21,8 @@ public class BrowseServlet extends HttpServlet {
     private void browse(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
             Collection<User> users = DAOFactory.getInstance().getUserDAO().findAll();
+            req.setCharacterEncoding("UTF-8");
             req.getSession().setAttribute("users", users);
-            System.out.println("HHHHHHHHHHHHHH" + users);
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
         } catch (Exception e) {
             throw new ServletException(e);
