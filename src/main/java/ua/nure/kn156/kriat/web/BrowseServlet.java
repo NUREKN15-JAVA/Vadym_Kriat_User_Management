@@ -21,6 +21,7 @@ public class BrowseServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         if (req.getParameter(ADD_PARAM) != null) {
             add(req, resp);
         } else if (req.getParameter(EDIT_PARAM) != null) {
@@ -45,7 +46,7 @@ public class BrowseServlet extends HttpServlet {
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/add.jsp").forward(req, resp);
+        req.getRequestDispatcher("/add").forward(req, resp);
     }
 
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -65,7 +66,7 @@ public class BrowseServlet extends HttpServlet {
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
-        req.getRequestDispatcher("/edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/edit").forward(req, resp);
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) {

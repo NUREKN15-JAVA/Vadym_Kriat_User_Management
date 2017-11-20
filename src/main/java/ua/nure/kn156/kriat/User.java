@@ -142,4 +142,14 @@ public class User {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

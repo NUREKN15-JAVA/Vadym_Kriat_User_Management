@@ -15,7 +15,7 @@ public class HsqldbUserDao implements UserDAO {
     private static final String INSERT_QUERY = "INSERT INTO " + UserTableInf.TABLE_NAME + " (" +
             UserTableInf.FIRST_NAME + "," + UserTableInf.LAST_NAME + "," + UserTableInf.DATE_OF_BIRTH
             + ") VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE" + UserTableInf.TABLE_NAME + " SET " +
+    private static final String UPDATE_QUERY = "UPDATE " + UserTableInf.TABLE_NAME + " SET " +
             UserTableInf.FIRST_NAME + "=?, " + UserTableInf.LAST_NAME + "=?," + UserTableInf.DATE_OF_BIRTH +
             "=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM " + UserTableInf.TABLE_NAME + " WHERE id=?";
