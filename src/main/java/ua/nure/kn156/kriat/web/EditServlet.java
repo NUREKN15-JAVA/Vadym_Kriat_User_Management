@@ -34,7 +34,7 @@ public class EditServlet extends HttpServlet {
     private void doOk(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             User user = new User(getUser(req));
-            DAOFactory.getInstance().getUserDAO().update(user);
+            passToDB(user);
             req.getRequestDispatcher("/browse").forward(req, resp);
         } catch (ValidationException e) {
             req.setAttribute("error", e.getMessage());
@@ -50,31 +50,26 @@ public class EditServlet extends HttpServlet {
         req.getRequestDispatcher("/browse").forward(req, resp);
     }
 
-    private void showPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/edit.jsp").forward(req, resp);
-    }
-
     private User getUser(HttpServletRequest req) throws ValidationException {
+        User user = new User();
+
         String idStr = req.getParameter("id");
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String date = req.getParameter("date");
 
-        if (idStr == null) {
-            throw new ValidationException("Id is missing");
-        }
-        if (firstName == null) {
+        if (firstName == null || firstName.isEmpty()) {
             throw new ValidationException("First name is missing");
         }
-        if (lastName == null) {
+        if (lastName == null || lastName.isEmpty()) {
             throw new ValidationException("Last name is missing");
         }
         if (date == null) {
             throw new ValidationException("Date of birth is missing");
         }
-
-        User user = new User();
-        user.setId(Long.valueOf(idStr));
+        if (idStr != null) {
+            user.setId(Long.valueOf(idStr));
+        }
         user.setFirstName(firstName);
         user.setLastName(lastName);
         try {
@@ -83,5 +78,13 @@ public class EditServlet extends HttpServlet {
             throw new ValidationException("Date format is incorrect");
         }
         return user;
+    }
+
+    protected void passToDB(User user) throws DatabaseException {
+        DAOFactory.getInstance().getUserDAO().update(user);
+    }
+
+    protected void showPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/edit.jsp").forward(req, resp);
     }
 }

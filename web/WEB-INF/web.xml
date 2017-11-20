@@ -14,6 +14,11 @@
         <servlet-class>ua.nure.kn156.kriat.web.EditServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>AddServlete</servlet-name>
+        <servlet-class>ua.nure.kn156.kriat.web.AddServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>BrowseServlet</servlet-name>
         <url-pattern>/browse</url-pattern>
@@ -22,5 +27,10 @@
     <servlet-mapping>
         <servlet-name>EditServlet</servlet-name>
         <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>AddServlete</servlet-name>
+        <url-pattern>/add</url-pattern>
     </servlet-mapping>
 </web-app>
