@@ -47,4 +47,5 @@
         <servlet-name>DetailsServlet</servlet-name>
         <url-pattern>/details</url-pattern>
     </servlet-mapping>
+
 </web-app>

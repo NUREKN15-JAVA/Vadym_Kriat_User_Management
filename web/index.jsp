@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Welcome to Usermanagement</h1>
-    <form action="<%=request.getContextPath()%>/browse" method="post">
+    <form action="<%=request.getContextPath()%>/browse" method="get">
         <input type="submit" name="next" value="Next">
     </form>
 </body>
