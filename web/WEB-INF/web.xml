@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
     <servlet>
         <servlet-name>BrowseServlet</servlet-name>
         <servlet-class>ua.nure.kn156.kriat.web.BrowseServlet</servlet-class>
@@ -19,6 +23,11 @@
         <servlet-class>ua.nure.kn156.kriat.web.AddServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>DetailsServlet</servlet-name>
+        <servlet-class>ua.nure.kn156.kriat.web.DetailsServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>BrowseServlet</servlet-name>
         <url-pattern>/browse</url-pattern>
@@ -32,5 +41,10 @@
     <servlet-mapping>
         <servlet-name>AddServlete</servlet-name>
         <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DetailsServlet</servlet-name>
+        <url-pattern>/details</url-pattern>
     </servlet-mapping>
 </web-app>

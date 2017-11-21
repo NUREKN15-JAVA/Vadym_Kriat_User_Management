@@ -2,6 +2,7 @@ package ua.nure.kn156.kriat.web;
 
 import ua.nure.kn156.kriat.User;
 import ua.nure.kn156.kriat.db.DAOFactory;
+import ua.nure.kn156.kriat.db.UserDAO;
 import ua.nure.kn156.kriat.db.exceptions.DatabaseException;
 
 import javax.servlet.ServletException;
@@ -59,7 +60,6 @@ public class BrowseServlet extends HttpServlet {
 
         try {
             User user = DAOFactory.getInstance().getUserDAO().find(new Long(idParam));
-            System.out.println(user);
             req.getSession().setAttribute("user", user);
         } catch (DatabaseException e) {
             req.setAttribute("error", e.toString());
@@ -69,11 +69,40 @@ public class BrowseServlet extends HttpServlet {
         req.getRequestDispatcher("/edit").forward(req, resp);
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idParam = req.getParameter("id");
+        if (idParam == null || idParam.length() == 0) {
+            req.setAttribute("error", "You must select the user");
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        try {
+            UserDAO dao = DAOFactory.getInstance().getUserDAO();
+            User user = dao.find(new Long(idParam));
+            dao.delete(user);
+        } catch (DatabaseException e) {
+            req.setAttribute("error", e.toString());
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        resp.sendRedirect("/browse");
     }
 
-    private void details(HttpServletRequest req, HttpServletResponse resp) {
-
+    private void details(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idParam = req.getParameter("id");
+        if (idParam == null || idParam.length() == 0) {
+            req.setAttribute("error", "You must select the user");
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        try {
+            User user = DAOFactory.getInstance().getUserDAO().find(new Long(idParam));
+            req.getSession().setAttribute("user", user);
+        } catch (DatabaseException e) {
+            req.setAttribute("error", e.toString());
+            req.getRequestDispatcher("/browse.jsp").forward(req, resp);
+            return;
+        }
+        req.getRequestDispatcher("/details").forward(req, resp);
     }
 }

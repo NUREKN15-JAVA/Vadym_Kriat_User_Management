@@ -25,7 +25,7 @@ public class EditServlet extends HttpServlet {
         if (req.getParameter(OK_PARAM) != null) {
             doOk(req, resp);
         } else if (req.getParameter(CANCEL_PARAM) != null) {
-            doCancel(req, resp);
+            doCancel(resp);
         } else {
             showPage(req, resp);
         }
@@ -35,7 +35,6 @@ public class EditServlet extends HttpServlet {
         try {
             User user = new User(getUser(req));
             passToDB(user);
-            req.getRequestDispatcher("/browse").forward(req, resp);
         } catch (ValidationException e) {
             req.setAttribute("error", e.getMessage());
             showPage(req, resp);
@@ -43,11 +42,11 @@ public class EditServlet extends HttpServlet {
         } catch (DatabaseException e) {
             throw new ServletException(e);
         }
-        req.getRequestDispatcher("/browse").forward(req, resp);
+        resp.sendRedirect("/browse");
     }
 
-    private void doCancel(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/browse").forward(req, resp);
+    private void doCancel(HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/browse");
     }
 
     private User getUser(HttpServletRequest req) throws ValidationException {
