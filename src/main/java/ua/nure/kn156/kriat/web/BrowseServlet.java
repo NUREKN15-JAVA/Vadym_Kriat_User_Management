@@ -4,6 +4,7 @@ import ua.nure.kn156.kriat.User;
 import ua.nure.kn156.kriat.db.DAOFactory;
 import ua.nure.kn156.kriat.db.UserDAO;
 import ua.nure.kn156.kriat.db.exceptions.DatabaseException;
+import ua.nure.kn156.kriat.util.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,24 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-//todo i18n
 public class BrowseServlet extends HttpServlet {
-
-    private static final String ADD_PARAM = "add";
-    private static final String EDIT_PARAM = "edit";
-    private static final String DELETE_PARAM = "delete";
-    private static final String DETAILS_PARAM = "details";
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        if (req.getParameter(ADD_PARAM) != null) {
+        if (req.getParameter(Const.PARAM_ADD) != null) {
             add(req, resp);
-        } else if (req.getParameter(EDIT_PARAM) != null) {
+        } else if (req.getParameter(Const.PARAM_EDIT) != null) {
             edit(req, resp);
-        } else if (req.getParameter(DELETE_PARAM) != null) {
+        } else if (req.getParameter(Const.PARAM_DELETE) != null) {
             delete(req, resp);
-        } else if (req.getParameter(DETAILS_PARAM) != null) {
+        } else if (req.getParameter(Const.PARAM_DETAILS) != null) {
             details(req, resp);
         } else {
             browse(req, resp);
@@ -39,7 +34,7 @@ public class BrowseServlet extends HttpServlet {
     private void browse(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
             Collection<User> users = DAOFactory.getInstance().getUserDAO().findAll();
-            req.getSession().setAttribute("users", users);
+            req.getSession().setAttribute(Const.KEY_USERS, users);
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
         } catch (Exception e) {
             throw new ServletException(e);
@@ -51,18 +46,18 @@ public class BrowseServlet extends HttpServlet {
     }
 
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idParam = req.getParameter("id");
+        String idParam = req.getParameter(Const.PARAM_ID);
         if (idParam == null || idParam.length() == 0) {
-            req.setAttribute("error", "You must select the user");
+            req.setAttribute(Const.KEY_ERR, Message.getString("options.warning.selectuser"));
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
 
         try {
             User user = DAOFactory.getInstance().getUserDAO().find(new Long(idParam));
-            req.getSession().setAttribute("user", user);
+            req.getSession().setAttribute(Const.KEY_USER, user);
         } catch (DatabaseException e) {
-            req.setAttribute("error", e.toString());
+            req.setAttribute(Const.KEY_ERR, e.toString());
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -70,9 +65,9 @@ public class BrowseServlet extends HttpServlet {
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idParam = req.getParameter("id");
+        String idParam = req.getParameter(Const.PARAM_ID);
         if (idParam == null || idParam.length() == 0) {
-            req.setAttribute("error", "You must select the user");
+            req.setAttribute(Const.KEY_ERR, Message.getString("options.warning.selectuser"));
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -81,7 +76,7 @@ public class BrowseServlet extends HttpServlet {
             User user = dao.find(new Long(idParam));
             dao.delete(user);
         } catch (DatabaseException e) {
-            req.setAttribute("error", e.toString());
+            req.setAttribute(Const.KEY_ERR, e.toString());
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -89,9 +84,9 @@ public class BrowseServlet extends HttpServlet {
     }
 
     private void details(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String idParam = req.getParameter("id");
+        String idParam = req.getParameter(Const.PARAM_ID);
         if (idParam == null || idParam.length() == 0) {
-            req.setAttribute("error", "You must select the user");
+            req.setAttribute(Const.KEY_ERR, Message.getString("options.warning.selectuser"));
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }
@@ -99,7 +94,7 @@ public class BrowseServlet extends HttpServlet {
             User user = DAOFactory.getInstance().getUserDAO().find(new Long(idParam));
             req.getSession().setAttribute("user", user);
         } catch (DatabaseException e) {
-            req.setAttribute("error", e.toString());
+            req.setAttribute(Const.KEY_ERR, e.toString());
             req.getRequestDispatcher("/browse.jsp").forward(req, resp);
             return;
         }

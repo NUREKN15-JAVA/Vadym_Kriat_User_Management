@@ -5,7 +5,7 @@
 <head>
     <title>Add user</title>
 </head>
-<body>-
+<body>
 <fmt:setBundle basename="message" var="lang"/>
 <form action="<%=request.getContextPath()%>/add" method="post">
     <table>

@@ -16,15 +16,12 @@ import java.text.ParseException;
 //todo i18n
 public class EditServlet extends HttpServlet {
 
-    private static final String OK_PARAM = "ok";
-    private static final String CANCEL_PARAM = "cancel";
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        if (req.getParameter(OK_PARAM) != null) {
+        if (req.getParameter(Const.PARAM_OK) != null) {
             doOk(req, resp);
-        } else if (req.getParameter(CANCEL_PARAM) != null) {
+        } else if (req.getParameter(Const.PARAM_CANCEL) != null) {
             doCancel(resp);
         } else {
             showPage(req, resp);
@@ -36,7 +33,7 @@ public class EditServlet extends HttpServlet {
             User user = new User(getUser(req));
             passToDB(user);
         } catch (ValidationException e) {
-            req.setAttribute("error", e.getMessage());
+            req.setAttribute(Const.KEY_ERR, e.getMessage());
             showPage(req, resp);
             return;
         } catch (DatabaseException e) {
@@ -52,10 +49,10 @@ public class EditServlet extends HttpServlet {
     private User getUser(HttpServletRequest req) throws ValidationException {
         User user = new User();
 
-        String idStr = req.getParameter("id");
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String date = req.getParameter("date");
+        String idStr = req.getParameter(Const.PARAM_ID);
+        String firstName = req.getParameter(Const.PARAM_FIRST_NAME);
+        String lastName = req.getParameter(Const.PARAM_LAST_NAME);
+        String date = req.getParameter(Const.PARAM_DATE);
 
         if (firstName == null || firstName.isEmpty()) {
             throw new ValidationException("First name is missing");

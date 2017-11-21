@@ -8,11 +8,9 @@ import java.io.IOException;
 
 public class DetailsServlet extends HttpServlet {
 
-    private static final String BACK_PARAM = "back";
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter(BACK_PARAM) != null) {
+        if (req.getParameter(Const.PARAM_BACK) != null) {
             doBack(req, resp);
         } else {
             showPage(req, resp);
