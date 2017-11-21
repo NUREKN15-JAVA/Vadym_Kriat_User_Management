@@ -3,6 +3,7 @@ package ua.nure.kn156.kriat.web;
 import ua.nure.kn156.kriat.User;
 import ua.nure.kn156.kriat.db.DAOFactory;
 import ua.nure.kn156.kriat.db.exceptions.DatabaseException;
+import ua.nure.kn156.kriat.util.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 
-//todo i18n
 public class EditServlet extends HttpServlet {
 
     @Override
@@ -55,13 +55,13 @@ public class EditServlet extends HttpServlet {
         String date = req.getParameter(Const.PARAM_DATE);
 
         if (firstName == null || firstName.isEmpty()) {
-            throw new ValidationException("First name is missing");
+            throw new ValidationException(Message.getString("exception.missing.firstname"));
         }
         if (lastName == null || lastName.isEmpty()) {
-            throw new ValidationException("Last name is missing");
+            throw new ValidationException(Message.getString("exception.missing.lastname"));
         }
         if (date == null) {
-            throw new ValidationException("Date of birth is missing");
+            throw new ValidationException(Message.getString("exception.missing.dateofbirth"));
         }
         if (idStr != null) {
             user.setId(Long.valueOf(idStr));
@@ -71,7 +71,7 @@ public class EditServlet extends HttpServlet {
         try {
             user.setDate(DateFormat.getDateInstance().parse(date));
         } catch (ParseException e) {
-            throw new ValidationException("Date format is incorrect");
+            throw new ValidationException(Message.getString("exception.missing.dateformat"));
         }
         return user;
     }
