@@ -4,10 +4,7 @@ import org.junit.Before;
 import ua.nure.kn156.kriat.User;
 
 import java.text.DateFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class BrowseServletTest extends MockServletTestCase {
 
@@ -37,7 +34,16 @@ public class BrowseServletTest extends MockServletTestCase {
         User userInSession = (User) getWebMockObjectFactory().getMockSession().getAttribute("user");
         assertNotNull(userInSession);
         assertSame(user, userInSession);
+    }
 
+    public void testDelete() {
+        User user = new User(1000L, "John", "Dao", new Date());
+        mockUserDao.expectAndReturn("find", 1000L, user);
+        mockUserDao.expect("delete", user);
+
+        addRequestParameter("id", user.getId().toString());
+        addRequestParameter("delete", "Delete");
+        doPost();
     }
 
     public void testDetails() {
