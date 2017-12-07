@@ -4,6 +4,7 @@ import ua.nure.kn156.kriat.User;
 import ua.nure.kn156.kriat.db.exceptions.DatabaseException;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Interface for User class which DAO pattern with all CRUD operations.
@@ -53,6 +54,10 @@ public interface UserDAO {
      * @throws DatabaseException in case of any error with DB
      */
     Collection<User> findAll() throws DatabaseException;
+
+    default Collection<User> find(String firstName, String lastName) throws DatabaseException {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Set the connection factory.

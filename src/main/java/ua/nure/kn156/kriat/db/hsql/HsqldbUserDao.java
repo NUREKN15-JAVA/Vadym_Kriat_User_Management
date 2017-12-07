@@ -21,6 +21,8 @@ public class HsqldbUserDao implements UserDAO {
     private static final String DELETE_QUERY = "DELETE FROM " + UserTableInf.TABLE_NAME + " WHERE id=?";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM " + UserTableInf.TABLE_NAME + " WHERE id=?";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM " + UserTableInf.TABLE_NAME;
+    private static final String SELECT_BY_FL_NAME = "SELECT * FROM " + UserTableInf.TABLE_NAME + " WHERE " +
+            UserTableInf.FIRST_NAME + "=? AND " + UserTableInf.LAST_NAME + "=?";
 
     private ConnectionFactory connectionFactory;
 
@@ -188,6 +190,29 @@ public class HsqldbUserDao implements UserDAO {
     @Override
     public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
+    }
+
+    @Override
+    public Collection<User> find(String firstName, String lastName) throws DatabaseException {
+        try (Connection connection = connectionFactory.createConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_BY_FL_NAME)) {
+            int i = 1;
+            ps.setString(i++, firstName);
+            ps.setString(i, lastName);
+            ResultSet rs = ps.executeQuery();
+            Collection<User> users = new ArrayList<>();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong(UserTableInf.ID));
+                user.setFirstName(rs.getString(UserTableInf.FIRST_NAME));
+                user.setLastName(rs.getString(UserTableInf.LAST_NAME));
+                user.setDate(rs.getDate(UserTableInf.DATE_OF_BIRTH));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     public ConnectionFactory getConnectionFactory() {
