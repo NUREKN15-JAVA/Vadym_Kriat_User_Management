@@ -33,5 +33,6 @@
     <orderEntry type="library" name="regexp-1.3" level="project" />
     <orderEntry type="library" name="mockobjects-core-0.09" level="project" />
     <orderEntry type="library" name="web-lib" level="project" />
+    <orderEntry type="library" name="jade" level="project" />
   </component>
 </module>
