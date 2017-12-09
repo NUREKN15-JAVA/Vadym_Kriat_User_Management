@@ -66,7 +66,7 @@ public class SearchGui extends JFrame {
     }
 
     public static void main(String[] args) {
-        SearchGui gui = new SearchGui(null);
+        SearchGui gui = new SearchGui(new SearchAgent());
         gui.setVisible(true);
     }
 
